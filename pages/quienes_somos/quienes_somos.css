@@ -1,0 +1,145 @@
+#fh5co-home h1{
+    padding-bottom: 5.5vw;    
+}
+
+#section-1{
+    background-color: white;
+    width: 100%;
+    padding-bottom: 2em;
+}
+
+#section-2{
+    background-color: white;
+    width: 100%;
+    padding-bottom: 2em;
+}
+
+#section-3{
+    background-color:#1a1b1e;
+    width: 100%;
+}
+
+
+#section-1 .row{
+    padding: 3em 2em 0 2em;
+    display: flex;
+    justify-content: end;
+    position: relative;
+}
+
+#section-1 .row .card{
+    position: absolute;
+    width: 42%;
+    background-color:#BD0625;
+    top:8vw;
+    left: 8.5vw;
+    z-index: 2;
+    height: 28vw;
+    color:white;
+    padding: 1em;
+    font-size: 1.9vw;
+}
+
+#section-2 .row{
+    padding: 3em 2em 0 2em;
+    display: flex;
+    justify-content: start;
+    position: relative;
+}
+
+#section-3{
+    justify-content:space-between;
+}
+
+#section-2 .row .card{
+    position: absolute;
+    width: 42%;
+    background-color:#BD0625;
+    top:8vw;
+    left: 52vw;
+    z-index: 2;
+    height: 28vw;
+    color:white;
+    padding: 1em;
+    font-size: 1.9vw;
+}
+
+#section-3 .row{
+
+    padding: 3em 2em 1em 2em;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+
+}
+
+#rounded-white-space-6{
+    background-color: white;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+
+#rounded-white-space-7{
+    background-color: black;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+}
+
+.img-shadow:hover{
+    transform: none;
+}
+
+.col-big{
+    width: 55%;
+}
+
+.col-first-section{
+    height: 55vw;
+    text-align: center;
+    position: relative;
+    transition: none;
+}
+
+.col-first-section:hover{
+    transform: none;
+    transition: none;
+    box-shadow: none;
+}
+
+.col-first-section .img-shadow:hover{
+    transform: none;
+    transition: none;
+    z-index: 2;
+}
+
+.col-first-section h2{
+    font-size: 3vw;
+}
+
+.col-first-section p{
+    font-size: 1.5vw;
+}
+
+.card-top-part{
+    background-color: white;
+    margin-left: 1em;
+    margin-right: 1em;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    position: absolute;
+    top: 5.5vw;
+    height: 46vw;
+}
+
+.card-top-part h2{
+    padding-top: 4vw;
+    padding-bottom: 21vw;
+}
+
+#fh5co-testimony{
+    padding: 0;
+}
+
+#fh5co-services{
+    padding:0;
+}
