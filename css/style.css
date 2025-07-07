@@ -873,7 +873,7 @@ img {
 }
 
 #rounded-white-space-5{
-  background-color: black;
+  background-color: white;
   border-top-left-radius: 50%;
   border-top-right-radius: 50%;
   position: absolute;
@@ -1203,7 +1203,7 @@ img {
   padding-left: 20%;
   padding-right: 20%;
   padding-top: 5vw;
-  background-color: black;
+  background-color: white;
 }
 
 #fh5co-video iframe{
@@ -1212,18 +1212,18 @@ img {
 }
 
 #fh5co-footer {
-  background: black;
+  background: white;
 }
 #fh5co-footer a {
   color: #74889e;
 }
 #fh5co-footer a:hover {
-  color: #fff !important;
+  color: black !important;
   text-decoration: underline;
 }
 #fh5co-footer .section-title {
   font-size: 25px;
-  color: #fff;
+  color: black;
   position: relative;
   padding-bottom: 20px;
 }
