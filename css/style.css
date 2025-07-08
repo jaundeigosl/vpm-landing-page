@@ -105,7 +105,7 @@ h1, h2, h3, h4, h5, h6 {
 #fh5co-header #navbar li a {
   font-family: "aptos", sans-serif;
   position: relative;
-  font-size: 15.5px;
+  font-size: 1.2vw;
   font-weight: 400;
 }
 
@@ -360,7 +360,7 @@ img {
       display: none;
       position: absolute;
       background-color: #f9f9f9;
-      width: 10vw;
+      width: 120px;
       z-index: 1;
       left: 0;
       top: 100%;
