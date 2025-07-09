@@ -1,0 +1,48 @@
+#first-section{
+    padding: 2vw;
+    background-color: white;
+}
+
+#rounded-white-space-1{
+    background-color: white;
+}
+
+#first-section h2{
+    text-align: center;
+    padding:  3vw 1vw 0 1vw;
+    font-size: 2.5vw;
+}
+
+#fh5co-services{
+    padding: 0;
+}
+
+.img-icon{
+    object-fit: contain;
+    width: 6vw;
+    height: 6vw;
+    margin: 0;
+}
+
+#service-container-content{
+    height: 45vw;
+}
+
+#service-container{
+    height: auto;
+}
+
+h3{
+    text-align: center;
+    font-size: 1.8vw;
+}
+
+p{
+    font-size:1.6vw;
+}
+
+#map-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
