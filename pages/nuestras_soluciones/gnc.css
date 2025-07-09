@@ -1,0 +1,68 @@
+#section-1 {
+    background-color: white;
+}
+
+#section-1 .row{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 4vw;
+    padding-bottom: 4vw;
+}
+
+.col-long{
+    width: 30%;
+    height: 30vw;
+    padding-top: 4vw;
+}
+
+#rounded-white-space-1{
+
+    background-color: white;
+
+}
+
+#fh5co-services{
+    padding: 0;
+}
+
+.col-long h2{
+    text-align: center;
+    color: white;
+    font-size: 3vw;
+}
+
+.col-long p{
+    padding-right: 1vw;
+    padding-left: 1vw;
+    color: black;
+    text-align: center;
+}
+
+#col-1{
+    border-top-left-radius: 30%;
+        background: linear-gradient(
+                180deg,
+                #3FA52A,  /* Starting color */
+                white   /* Ending color */
+            );
+}
+
+#col-2{
+
+    background: linear-gradient(
+                180deg,
+                #6F7072,  /* Starting color */
+                white   /* Ending color */
+            );
+
+}
+
+#col-3{
+        border-top-right-radius: 30%;
+        background: linear-gradient(
+                180deg,
+                #E6511D,  /* Starting color */
+                white   /* Ending color */
+            );
+
+}

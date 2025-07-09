@@ -832,14 +832,14 @@ img {
 
 #service-container{
   width: 100%;
-  height: 100vh;
+  height: 39vw;
   background-color: #BD0625;
-  
+  position: relative;
 }
 
 #service-container-content{
   width: 100%;
-  height: 80vh;
+  height: 30vw;
   padding-left: 10%;
   padding-right: 10%;
   color:white;
@@ -891,7 +891,8 @@ img {
   height: 10vh;
   width: 100%;
   background-color: white;
-
+  position: absolute;
+  bottom: 0;
 }
 
 #main-section{
