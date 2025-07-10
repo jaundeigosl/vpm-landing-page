@@ -29,7 +29,7 @@
 }
 
 #service-container-content{
-    height: 45vw;
+    height: 40vw;
 }
 
 #service-container{
@@ -72,6 +72,11 @@ p{
     left: 49vw;
 }
 
+#pin-4{
+    top:16.3vw;
+    left: 49.8vw;
+}
+
 #link-1{
     color:black;
     text-decoration: none;
@@ -86,6 +91,12 @@ p{
 
 #link-3{
     color:#E6511D;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#link-4{
+    color:#6F7072;
     text-decoration: none;
     cursor: pointer;
 }
@@ -106,6 +117,36 @@ p{
     color:#BD0625;
 }
 
+#link-4:hover{
+    transition: all 0.3s ease;
+    color:#BD0625;
+}
+
 #mapa{
     width: 38vw;
+}
+
+#button-row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 6vw;
+}
+
+#button-row h2{
+    color: black;
+    background-color: white;
+    padding: 2vw;
+    border-radius: 2rem;
+    transition: all 0.3s ease;
+}
+
+#button-row a{
+    text-decoration: none;
+}
+
+#button-row h2:hover{
+    background-color: #E6511D;
+    transition: all 0.3s ease;
+    color: white;
 }

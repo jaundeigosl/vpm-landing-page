@@ -31,3 +31,32 @@
     padding: 0 !important;
     color: black;
 }
+
+#service-container{
+    height: 50vw !important;
+}
+
+#button-row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1vw;
+}
+
+#button-row h2{
+    color: black;
+    background-color: white;
+    padding: 2vw;
+    border-radius: 2rem;
+    transition: all 0.3s ease;
+}
+
+#button-row a{
+    text-decoration: none;
+}
+
+#button-row h2:hover{
+    background-color: #E6511D;
+    transition: all 0.3s ease;
+    color: white;
+}
