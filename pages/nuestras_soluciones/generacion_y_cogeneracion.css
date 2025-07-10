@@ -1,3 +1,7 @@
+#fh5co-home .text-inner h1{
+    color:#3FA52A;
+}
+
 #first-section{
     padding: 2vw;
     background-color: white;
@@ -21,4 +25,9 @@
     object-fit: contain;
     width: 6vw;
     margin: 0;
+}
+
+#subtitle{
+    padding: 0 !important;
+    color: black;
 }

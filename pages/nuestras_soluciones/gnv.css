@@ -1,3 +1,7 @@
+#fh5co-home .text-inner h1{
+    color:#3FA52A;
+}
+
 #first-section{
     padding: 2vw;
     background-color: white;
@@ -45,4 +49,59 @@ p{
     width: 100%;
     display: flex;
     justify-content: center;
+    position: relative;
+}
+
+.pin-icon{
+    position: absolute;
+    width: 2.5vw;
+}
+
+#pin-1{
+    top:11.6vw;
+    left: 47.7vw;
+}
+
+#pin-2{
+    top:12.3vw;
+    left: 48.3vw;
+}
+
+#pin-3{
+    top:12.6vw;
+    left: 49vw;
+}
+
+#link-1{
+    color:black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#link-2{
+    color:#3FA52A;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#link-3{
+    color:#E6511D;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#link-1:hover{
+    transition: all 0.3s ease;
+    color:#BD0625;
+
+}
+
+#link-2:hover{
+    transition: all 0.3s ease;
+    color:#BD0625;
+}
+
+#link-3:hover{
+    transition: all 0.3s ease;
+    color:#BD0625;
 }
