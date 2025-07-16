@@ -1,0 +1,115 @@
+#fh5co-services{
+    background-color: #1a1a1a;
+    text-align: center;
+    position: relative;
+    padding: 0;
+    padding-bottom: 4vh;
+}
+
+#fh5co-services h2{
+    color:#3FA52A;
+    padding: 5vw;
+}
+
+#fh5co-testimony{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    height: 20vw;
+}
+
+.carousel-container {
+    width: 1100px; /* Ancho para mostrar 3 imágenes de 300px + espacio */
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 40%;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 1s ease-in-out; /* Transición suave entre slides */
+    animation: scrollCarousel 30s infinite linear; /* 10s por slide * 3 slides = 30s total */
+}
+
+.carousel-slide {
+    min-width: 100%; /* Cada slide ocupa el 100% del ancho del contenedor */
+    display: flex;
+    justify-content: space-around; /* Distribuye las imágenes con espacio entre ellas */
+    align-items: center;
+    padding: 10px 0;
+    box-sizing: border-box; /* Incluir padding en el ancho */
+}
+
+.carousel-slide img {
+    width: 300px; /* Ancho de cada imagen */
+    height: 200px; /* Alto de cada imagen */
+    object-fit: contain; /* Asegura que la imagen cubra el área sin distorsionarse */
+    border-radius: 8px;
+    background-color: white;
+    margin: 0;
+}
+
+/* Animación para el desplazamiento automático */
+@keyframes scrollCarousel {
+    0% { transform: translateX(0); }
+    33.33% { transform: translateX(-100%); } /* Desplaza al segundo conjunto de imágenes */
+    66.66% { transform: translateX(-200%); } /* Desplaza al tercer conjunto de imágenes */
+    100% { transform: translateX(0); } /* Vuelve al inicio para un ciclo continuo */
+}
+
+#fh5co-explore{
+    background-color: #1a1a1a;
+    padding: 10vw 0 4vw 0;
+    text-align: center;
+    position: relative;
+
+}
+
+#estrategicas-container{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+#estrategicas-container img{
+    width: 40vw;
+    height: 15vw;
+    padding: 4vw;
+    margin: 1vw;
+    background-color: white;
+    border-radius: 1rem;
+}
+
+#MaxGNV{
+    padding-top: 2vw !important;
+    padding-bottom: 2vw !important;
+    padding-left: 6vw !important;
+    padding-right: 6vw !important;
+}
+
+#rounded-white-space-1{
+    background-color: white;
+    position: absolute;
+    bottom: 0;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#rounded-white-space-2{
+    background-color: white;
+    position: absolute;
+    top: 0;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+#last-image{
+    margin-right: 6vw;
+}
