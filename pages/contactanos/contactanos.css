@@ -19,22 +19,9 @@
     position: absolute;
     width: 10vw;
     height: 10vw;
-    background-color: #BD0625;
+    background-color: #3FA52A;
     top: -3vw;
 }
-
-
-#espacio-blanco-fondo{
-    position: absolute;
-    width: 100%;
-    height: 6vw;
-    background-color: #BD0625;
-    top: 74vw;
-    left: 0;
-    border-top-left-radius: 50%;
-    border-top-right-radius: 50%;
-}
-
 
 #formulario-contacto .col-lg-8{
     padding-left: 10vw;
@@ -46,8 +33,17 @@
     padding-left: 2vw;
 }
 
+h2{
+    color: #3FA52A;
+}
+
 #formulario-contacto .col-lg-3 .row h3{
     padding-left: 4vw;
+    color: #3FA52A;
+}
+
+h4{
+    color: #3FA52A;
 }
 
 #formulario-contacto .col-lg-3 .row .bar{
@@ -94,19 +90,20 @@
 
 button{
     margin-top:2vw;
-    background-color: #BD0625;
+    background-color: #3FA52A;
     color:white;
     width: 10vw;
     height: 5vw;
     font-weight: 800;
     border-radius: 0.5rem;
     border:0;
+    transition: all 0.3s ease; 
 }
 
 button:hover{
-    transform: transition all 0.3 ease;
-    background-color: #3FA52A;
-    color: black;
+    transition: all 0.3 ease;
+    background-color: black;
+    color: #3FA52A;
 }
 
 @media screen and (max-width: 1200px){
