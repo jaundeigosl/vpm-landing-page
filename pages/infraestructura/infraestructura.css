@@ -1,0 +1,80 @@
+.row{
+    display: flex;
+    justify-content: center;
+}
+
+.row h2{
+    padding: 2vw 4vw 2vw 4vw
+}
+
+#main-container{
+    position: relative;
+}
+
+#main-container img{
+    width: 40vw;
+    padding-bottom: 2vw;
+}
+
+.point{
+    position: absolute;
+    border-radius: 100%;
+    width: 10px;
+    height: 10px;
+}
+
+#point-1{
+    background-color: #BD0625;
+    z-index: 2;
+    top: 14.9vw;
+    right:49.2vw;
+}
+
+#point-2{
+    background-color: #3FA52A;
+    top: 21.3vw;
+    right:40.5vw;
+}
+
+.area{
+    position: absolute;
+    border-radius: 100%;
+    width: 9vw;
+    height: 9vw;
+}
+
+#area-1{
+    background-color: #BD0625;
+    z-index: 2;
+    top:10.5vw;
+    right:45.1vw;
+    opacity: 0.5;
+}
+
+#area-2{
+    background-color: #3FA52A;
+    z-index: 2;
+    top: 17vw;
+    right:36.4vw;
+    opacity: 0.5;
+}
+
+.info{
+    position: absolute;
+}
+
+#info-1{
+    top:14vw;
+    left:10vw;
+    color:#BD0625;
+}
+
+#info-2{
+    top:6vw;
+    right: 10vw;
+    color:#3FA52A;
+}
+
+#info-2 h3{
+    color:#3FA52A;
+}
