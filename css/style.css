@@ -309,7 +309,21 @@ h1, h2, h3, h4, h5, h6 {
   top:2vw;
 }
 
-@media screen and (max-width: 768px) {
+
+
+/* Por defecto, los elementos móviles están ocultos en todas las pantallas. */
+#mobile-item-1{
+  display: none;
+}
+#mobile-item-2{
+  display: none;
+}
+#mobile-item-3{
+  display: none;
+}
+
+/* Solo en pantallas de 992px o menos, se muestran los elementos móviles. */
+@media screen and (max-width: 992px) {
   #fh5co-header .navbar-default {
     margin-top: 0px;
     padding-right: 0px;
@@ -317,9 +331,29 @@ h1, h2, h3, h4, h5, h6 {
   }
   #navbar-logo{
     margin: 0;
-    object-fit: cover;
+    position: static;
+    width: 15vw;
+  }
+
+  #fh5co-header #navbar li a{
+    font-size: 2vw;
+  }
+
+  #mobile-item-1{
+  display: block;
+  }
+  #mobile-item-2{
+    display: block;
+  }
+  #mobile-item-3{
+    display: block;
+  }
+
+  #mobile-item-4{
+    display:none;
   }
 }
+
 #fh5co-header .navbar-default .brand-slogan {
   margin: 28px 0 0 15px;
   float: left;
@@ -737,7 +771,13 @@ img {
   -ms-box-shadow: 0px 3px 6px -1px rgba(0, 0, 0, 0.19);
   -o-box-shadow: 0px 3px 6px -1px rgba(0, 0, 0, 0.19);
   box-shadow: 0px 3px 6px -1px rgba(0, 0, 0, 0.19);
+  transition: 0.3s all ease
 }
+
+.getting-started .call-to-action a.sign-up:hover{
+  color:#3FA52A
+}
+
 @media screen and (max-width: 992px) {
   .getting-started .call-to-action a.sign-up {
     float: left !important;
@@ -950,11 +990,11 @@ img {
 
 .col-first-header i{
   padding: 1vw;
-  background-color:  #8fffb4;
+  background-color:  black;
   position: absolute;
   top: 9.8vw;
   left: 11vw;
-  color: black;
+  color: white;
   border-radius: 100%;
   font-size: 30px;
   display: flex;
@@ -1416,7 +1456,7 @@ img {
   text-decoration: none;
 }
 .fh5co-nav-toggle.active i::before, .fh5co-nav-toggle.active i::after {
-  background: #fff;
+  background: black;
 }
 .fh5co-nav-toggle:hover, .fh5co-nav-toggle:focus, .fh5co-nav-toggle:active {
   outline: none;
@@ -1430,18 +1470,18 @@ img {
   *display: inline;
   width: 25px;
   height: 2px;
-  color: #fff;
+  color: black;
   font: bold 14px/.4 Helvetica;
   text-transform: uppercase;
   text-indent: -55px;
-  background: #fff;
+  background: black;
   transition: all .2s ease-out;
 }
 .fh5co-nav-toggle i::before, .fh5co-nav-toggle i::after {
   content: '';
   width: 25px;
   height: 2px;
-  background: #fff;
+  background: black;
   position: absolute;
   left: 0;
   -webkit-transition: 0.2s;
@@ -1504,6 +1544,62 @@ img {
   .fh5co-nav-toggle {
     display: block;
   }
+
+  #navbar-logo{
+    width: 20vw;
+  }
+
+  #fh5co-header #navbar li a{
+    font-size: 3.5vw;
+  }
+
+  .getting-started{
+    text-align: center;
+  }
+
+  .getting-started .row{
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+  }
+
+  h2{
+    text-align: center;
+  }
+
+  h3{
+    margin-bottom: 10vw !important;
+  }
+
+  #main-section-container .row{
+    flex-wrap: wrap;
+    justify-content: center;
+    
+  }
+
+  .getting-started .call-to-action a.sign-up{
+    text-align: center;
+  }
+
+  .col-first-section{
+    height: 120vw;
+    width: 65vw;
+    margin-bottom: 8vw;
+  }
+
+  .col-first-header i{
+    top: 39vw;
+    left: 26vw;
+    font-size: 10vw;
+  }
+
+  .col-first-header i::before{
+    width: 11vw;
+    height: 11vw;
+  }
+
 }
 
 .btn {
