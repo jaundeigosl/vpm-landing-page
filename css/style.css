@@ -1590,9 +1590,10 @@ img {
   }
 
   .col-first-header i{
-    top: 39vw;
-    left: 26vw;
+    margin-top: 45%;
+    margin-left: 40%;
     font-size: 10vw;
+    left: 0;
   }
 
   .col-first-header i::before{
