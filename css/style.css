@@ -469,13 +469,6 @@ img {
     display: none;
   }
 
-  #fh5co-home .overlay{
-    background-image: url('../images/YPM-DRONE-21-skies.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-  }
-
 }
 
 #fh5co-home, #fh5co-home .text-wrap {

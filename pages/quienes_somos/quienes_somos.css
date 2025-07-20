@@ -29,15 +29,15 @@
 
 #section-1 .row .card{
     position: absolute;
-    width: 42%;
+    width: 45%;
     background-color:#BD0625;
-    top:8vw;
+    top:6vw;
     left: 8.5vw;
     z-index: 2;
-    height: 28vw;
+    height: 52vw;
     color:white;
     padding: 1em;
-    font-size: 1.9vw;
+    font-size: 3vw;
 }
 
 #section-2 .row{
@@ -53,15 +53,15 @@
 
 #section-2 .row .card{
     position: absolute;
-    width: 42%;
+    width: 45%;
     background-color:#BD0625;
-    top:8vw;
+    top:6vw;
     left: 52vw;
     z-index: 2;
-    height: 28vw;
+    height: 52vw;
     color:white;
     padding: 1em;
-    font-size: 1.9vw;
+    font-size: 3vw;
 }
 
 #section-3 .row{
