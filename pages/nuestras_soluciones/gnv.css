@@ -150,3 +150,102 @@ p{
     transition: all 0.3s ease;
     color: white;
 }
+
+#mobile{
+        display: none;
+    }
+
+@media screen and (max-width: 760px){
+
+    #desktop{
+        display:none !important;
+    }
+
+    #mobile{
+        display: block;
+    }
+
+    #fh5co-home .text-inner h1{
+        font-size: 11vw;
+
+    }
+
+    .row{
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .col-md-4{
+        
+    }
+
+    #first-section h2{
+        font-size: 8vw;
+    }
+
+    #service-container{
+        height: 340vw !important;
+    }
+
+    #service-container-content{
+        height: 270vw;
+        text-align: center;
+    }
+
+    #service-container-content i{
+        font-size: 15vw;
+    }
+
+    #service-container-content .row{
+        margin-bottom: 4vw;
+    }
+
+    #service-container-content h3{
+        margin: 0 !important;
+    }
+
+    .img-icon{
+        width: 15vw;
+        height: auto;
+    }
+
+    h3{
+        font-size: 6vw;
+    }
+
+    #mapa{
+        width: 90vw;
+    }
+
+    .pin-icon{
+        width: 6vw;
+    }
+
+    #pin-1{
+        top: 27vw;
+    }
+
+    #pin-2{
+        top: 29vw;
+    }
+
+    #pin-3{
+        top: 29vw;
+        left: 50vw;
+    }
+
+    #pin-4{
+        top: 38vw;
+        left: 52vw;
+    }
+
+    #service-container-content p{
+        font-size: 4.6vw;
+    }
+
+    #service-container-content #subtitle-1 {
+        margin-bottom: 12vw !important;
+    }
+
+
+}
