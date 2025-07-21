@@ -29,15 +29,15 @@
 
 #section-1 .row .card{
     position: absolute;
-    width: 45%;
+    width: 42%;
     background-color:#BD0625;
-    top:6vw;
+    top:8vw;
     left: 8.5vw;
     z-index: 2;
-    height: 52vw;
+    height: 28vw;
     color:white;
     padding: 1em;
-    font-size: 3vw;
+    font-size: 1.9vw;
 }
 
 #section-2 .row{
@@ -53,15 +53,15 @@
 
 #section-2 .row .card{
     position: absolute;
-    width: 45%;
+    width: 42%;
     background-color:#BD0625;
-    top:6vw;
+    top:8vw;
     left: 52vw;
     z-index: 2;
-    height: 52vw;
+    height: 28vw;
     color:white;
     padding: 1em;
-    font-size: 3vw;
+    font-size: 1.9vw;
 }
 
 #section-3 .row{
@@ -142,4 +142,81 @@
 
 #fh5co-services{
     padding:0;
+}
+
+.row{
+    margin-right: 0;
+}
+
+@media screen and (max-width: 760px){
+
+    .col-first-section{
+        width: 85vw;
+    }
+
+    #section-1 .row{
+        padding: 3em 0.5em 0 2em;
+    }
+
+    #section-2 .row{
+        padding: 3em 0.5em 0 1.5em;
+    }
+
+    #section-1 .row .card{
+        width: 45%;
+        top:8vw;
+        height: 65vw;
+        font-size: 3.4vw;
+        text-align: center;
+    }
+
+    #section-1 div img{
+        width: 55vw;
+        height: 50vw;
+        margin: 0;
+    }
+
+    #section-2 .row .card{
+        width: 47%;
+        top:5vw;
+        height: 80vw;
+        font-size: 3.4vw;
+        text-align: center;
+    }
+
+    #section-2 div img{
+        width: 55vw;
+        height: 50vw;
+        margin: 0;
+    }
+
+    #section-3 .row{
+        justify-content: center;
+        flex-wrap: wrap;
+        padding: 3em 2em 1em 3em;
+    }
+
+    .col-first-section{
+        height: 140vw;
+    }
+
+    .card-top-part{
+        height: 130vw;
+    }
+
+    .card-top-part h2{
+        padding-top: 4vw;
+        padding-bottom: 60vw;
+        font-size: 8vw;
+    }
+
+    .col-first-section p{
+        font-size: 4.7vw;
+    }
+
+    .col-first-section img{
+        position: absolute;
+        top:25vw
+    }
+
 }
