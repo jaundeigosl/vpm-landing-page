@@ -119,6 +119,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 4vw;
   text-align: center;
   align-content: center;
+  justify-content: center;
 }
 
 #fh5co-header #navbar li a span:hover{
@@ -321,6 +322,29 @@ h1, h2, h3, h4, h5, h6 {
 #mobile-item-3{
   display: none;
 }
+#mobile-item-5 span{
+  text-align: center;
+}
+#mobile-item-6{
+  display: none;
+}
+#mobile-item-7{
+  display: none;
+}
+#mobile-item-8{
+  display: none;
+}
+#mobile-item-9{
+  display: none;
+}
+
+#fondo-index{
+  height: 100%;
+  width: 100%;
+  opacity: 0.65;
+  object-fit: cover;
+  display: none;
+}
 
 /* Solo en pantallas de 992px o menos, se muestran los elementos móviles. */
 @media screen and (max-width: 992px) {
@@ -352,6 +376,27 @@ h1, h2, h3, h4, h5, h6 {
   #mobile-item-4{
     display:none;
   }
+  #mobile-item-5{
+    display:none;
+  }
+
+   #mobile-item-6{
+  display: block;
+  }
+  #mobile-item-7{
+    display: block;
+  }
+  #mobile-item-8{
+    display: block;
+  }
+    #mobile-item-9{
+    display: block;
+  }
+
+  #fondo-index{
+    display: block;
+  }
+
 }
 
 #fh5co-header .navbar-default .brand-slogan {
