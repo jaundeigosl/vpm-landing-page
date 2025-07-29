@@ -65,6 +65,10 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 0 30px 0;
 }
 
+#subtitulo{
+  color:white;
+}
+
 ::-webkit-selection {
   color: #fff;
   background: #d73930;
@@ -506,7 +510,11 @@ img {
 
 #fh5co-home .overlay video{
   height: 100%;
-  opacity: 0.65;
+  filter: grayscale(100%);
+}
+
+#titulo-principal{
+
 }
 
 @media screen and (max-width: 992px){
@@ -536,7 +544,7 @@ img {
   color: #BD0625;
   margin: 0 0 20px 0;
   font-weight: 400;
-  text-shadow: 3px 3px 2px black;
+  text-shadow: 1px 1px 2px black;
 }
 #fh5co-home .text-inner h2 {
   font-size: 42px !important;
@@ -544,7 +552,8 @@ img {
   font-weight: 300;
   color:#3FA52A !important;
   margin: 0 0 60px 0;
-  text-shadow: 2.5px 2.5px 2px black;
+  text-shadow: 1px 1px 2px black;
+
 }
 #fh5co-home .text-inner .call-to-action {
   display: block;
@@ -975,7 +984,7 @@ img {
 
 #main-section{
   width: 100%;
-  background-color: #1a1b1e;
+  background-color: #494949;
   padding-bottom: 6em;
   position: relative;
 }
@@ -995,7 +1004,7 @@ img {
 }
 
 #main-section-container{
-  background-color:#1a1b1e;
+  background-color:#494949;
   width: 100%;
   padding: 2em 4em 4em;
 }
@@ -1017,12 +1026,6 @@ img {
   padding-left: 1.5%;
   border-radius: 1rem;
   position: relative;
-  transition: all 0.3s ease;
-}
-
-.col-first-section:hover{
-  transform: scale(1.1);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 
 }
 
@@ -1075,7 +1078,6 @@ img {
 }
 
 #col-1{
-  background-color: #3FA52A;
 }
 
 #col-1 p{
@@ -1083,11 +1085,9 @@ img {
 }
 
 #col-2{
-  background-color:#6F7072;
 }
 
 #col-3{
-  background-color:#E6511D;
 }
 
 .fh5co-services .box-services i {
