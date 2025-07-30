@@ -486,7 +486,6 @@ img {
 #fh5co-home h2 {
   font-family: "aptos", sans-serif;
   font-size: 16px !important;
-  color: rgba(255, 255, 255, 0.3) !important;
 }
 #fh5co-home a {
   color: rgba(255, 255, 255, 0.8) !important;
@@ -537,10 +536,19 @@ img {
   vertical-align: middle;
   text-align: center;
 }
+
+#titulo-home{
+  color:white !important;
+}
+
+#sub-titulo-home{
+  color:white !important;
+}
+
 #fh5co-home .text-inner h1 {
   font-size: 58px;
   text-transform: uppercase;
-  color: white;
+  color: #BD0625;
   margin: 0 0 20px 0;
   font-weight: 400;
   text-shadow: 1px 1px 2px black;
@@ -549,11 +557,12 @@ img {
   font-size: 42px !important;
   line-height: 30px;
   font-weight: 300;
-  color:white !important;
+  color:#3FA52A;
   margin: 0 0 60px 0;
   text-shadow: 1px 1px 2px black;
 
 }
+
 #fh5co-home .text-inner .call-to-action {
   display: block;
   width: 100%;
