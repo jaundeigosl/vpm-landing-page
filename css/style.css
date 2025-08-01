@@ -790,7 +790,7 @@ img {
 
 .getting-started {
   background: #BD0625;
-  padding: 60px 0 0 0;
+  padding: 3vw 0 0 0;
 }
 .getting-started h3 {
   color: #fff;
@@ -998,13 +998,17 @@ img {
 }
 
 #rounded-white-space-4{
-  background-color: #BD0625;
   border-bottom-left-radius: 50%;
   border-bottom-right-radius: 50%;
+  background-color: #BD0625;
+}
+
+#rounded-white-space-4-background{
+  background-color: white;
 }
 
 #rounded-white-space-5{
-  background-color: white;
+  background-color: #BD0625;
   border-top-left-radius: 50%;
   border-top-right-radius: 50%;
   position: absolute;
