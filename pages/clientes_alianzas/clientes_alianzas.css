@@ -107,7 +107,7 @@
     /* Aquí se ajusta la animación. 
        El 50% es la clave, ya que el track ahora es 200% del ancho del contenedor.
     */
-    animation: scrollAlianzas 20s infinite linear;
+    animation: scrollAlianzas 30s infinite linear;
 }
 
 @keyframes scrollAlianzas {
@@ -313,7 +313,7 @@
     /* Aquí se ajusta la animación. 
        El 50% es la clave, ya que el track ahora es 200% del ancho del contenedor.
     */
-    animation: scrollAlianzas 10s infinite linear;
+    animation: scrollAlianzas 30s infinite linear;
 }
 
 }
