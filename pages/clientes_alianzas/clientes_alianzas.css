@@ -71,28 +71,57 @@
 
 }
 
-#estrategicas-container{
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    position: relative;
+/* --- Nuevas reglas para el carrusel de alianzas --- */
+
+#fh5co-explore .carousel-container {
+    height: auto;
+    /* Ajustar el ancho para que quepan todos los elementos y el duplicado */
+    width: 100%;
+    border-radius: 0;
 }
 
-#estrategicas-container img{
-    width: 40vw;
-    height: 15vw;
+#fh5co-explore .carousel-slide {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    margin-left: 20vw;
+    box-sizing: border-box;
+    /* Ajusta este valor para que quepan tus 4 imágenes. 
+       min-width: 100% es si tienes 1 imagen por slide. 
+       Si tienes varias, es mejor no usarlo aquí y dejar que el ancho se adapte.
+    */
+}
+
+#fh5co-explore .carousel-slide img {
+    width: auto; 
+    height: 12vw; 
     padding: 4vw;
     margin: 1vw;
     background-color: white;
     border-radius: 1rem;
+    object-fit: cover;
 }
 
-#MaxGNV{
-    padding-top: 2vw !important;
-    padding-bottom: 2vw !important;
-    padding-left: 6vw !important;
-    padding-right: 6vw !important;
+#alianzas-carousel-track {
+    /* Aquí se ajusta la animación. 
+       El 50% es la clave, ya que el track ahora es 200% del ancho del contenedor.
+    */
+    animation: scrollAlianzas 20s infinite linear;
 }
+
+@keyframes scrollAlianzas {
+    0% { transform: translateX(-55%); }
+    60%{ transform: translate(-10%)}
+    100% { transform: translateX(-55%); } /* Vuelve al inicio para un ciclo continuo */
+
+}
+
+#last-image{
+    padding: 0 2vw 0 2vw !important;
+}
+
+/* --- Fin de las nuevas reglas --- */
 
 #rounded-white-space-1{
     background-color: white;
@@ -114,8 +143,11 @@
     border-top-right-radius: 0;
 }
 
-#last-image{
-    padding: 0 2vw 0 2vw !important;
+#MaxGNV{
+    padding-top: 2vw !important;
+    padding-bottom: 2vw !important;
+    padding-left: 6vw !important;
+    padding-right: 6vw !important;
 }
 
 @media screen and (max-width: 760px){
@@ -243,9 +275,45 @@
         
     }
 
-    #estrategicas-container img{
+    #fh5co-explore .carousel-slide img {
         width: 45vw;
         height: 20vw;
     }
+
+    #fh5co-explore .carousel-slide {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px 0;
+        margin-left: 20vw;
+        box-sizing: border-box;
+        /* Ajusta este valor para que quepan tus 4 imágenes. 
+        min-width: 100% es si tienes 1 imagen por slide. 
+        Si tienes varias, es mejor no usarlo aquí y dejar que el ancho se adapte.
+        */
+    }
+
+    #fh5co-explore .carousel-slide img {
+        width: auto; 
+        height: 17vw; 
+        padding: 4vw;
+        margin: 1vw;
+        background-color: white;
+        border-radius: 1rem;
+        object-fit: cover;
+    }
+
+    @keyframes scrollAlianzas {
+        0% { transform: translateX(-155%); }
+        60%{ transform: translate(0%)}
+        100% { transform: translateX(-155%); } /* Vuelve al inicio para un ciclo continuo */
+
+    }
+    #alianzas-carousel-track {
+    /* Aquí se ajusta la animación. 
+       El 50% es la clave, ya que el track ahora es 200% del ancho del contenedor.
+    */
+    animation: scrollAlianzas 10s infinite linear;
+}
 
 }

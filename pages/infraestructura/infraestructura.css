@@ -1,11 +1,15 @@
  #fh5co-services{
-    background-color: #494949;
+    background-color: white;
  }
 
+ #fh5co-services{
+    height: 45vw;
+ }
 
  #fh5co-services .row{
     display: flex;
     justify-content: center;
+
 }
 
 .row h2{
@@ -13,60 +17,78 @@
     color:white
 }
 
+#titulo-mapa{
+    color:#BD0625;
+}
+
 #main-container{
     position: relative;
 }
 
 #main-container img{
-    width: 40vw;
+    width: 37vw;
+    position: absolute;
     padding-bottom: 2vw;
 }
 
-.point{
-    position: absolute;
+.area {
+    position: relative; /* Importante para que los puntos se posicionen dentro de ellos */
     border-radius: 100%;
-    width: 10px;
-    height: 10px;
+    width: 10vw;
+    height: 10vw;
 }
 
-#point-1{
+#area-1 {
+    background-color: rgba(189, 6, 37, 0.5);
+    z-index: 5;
+    top: 9.2vw;
+    right: 0vw;
+    left:6.4vw;
+    border: #BD0625 solid 0.2vw;
+}
+
+#area-2 {
+    background-color: rgba(63, 165, 42, 0.5);
+    z-index: 2;
+    top: 15vw;
+    right: 0vw;
+    left:4.7vw;
+    border: #3FA52A solid 0.2vw;
+}
+
+/* Estilos de los puntos centrados */
+#point-1, #point-2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1vw; /* Un tamaño más pequeño para que parezca un punto */
+    height: 1vw;
+    border-radius: 50%; /* Para que sea circular */
+}
+
+#point-1 {
     background-color: #BD0625;
     z-index: 2;
-    top: 14.9vw;
-    right:49.2vw;
 }
 
-#point-2{
+#point-2 {
     background-color: #3FA52A;
-    top: 21.3vw;
-    right:40.5vw;
-}
-
-.area{
-    position: absolute;
-    border-radius: 100%;
-    width: 9vw;
-    height: 9vw;
-}
-
-#area-1{
-    background-color: #BD0625;
-    z-index: 2;
-    top:10.5vw;
-    right:45.1vw;
-    opacity: 0.5;
-}
-
-#area-2{
-    background-color: #3FA52A;
-    z-index: 2;
-    top: 17vw;
-    right:36.4vw;
-    opacity: 0.5;
+    z-index: 3; /* Asegúrate de que estén por encima de #area-2 si es necesario */
 }
 
 .info{
     position: absolute;
+}
+
+.info p{
+    margin: 0;
+    font-size: 1.6vw;
+}
+
+.info h3{
+    margin-bottom: 1vw;
+    font-size: 2.2vw;
 }
 
 #info-1{
@@ -77,12 +99,19 @@
 
 #info-2{
     top:6vw;
-    right: 10vw;
+    right: 7vw;
     color:#3FA52A;
 }
 
 #info-2 h3{
     color:#3FA52A;
+}
+
+.arrows-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* Permite hacer clic a través del SVG si hay elementos debajo */
 }
 
 @media screen and (max-width: 760px){
@@ -114,6 +143,14 @@
         width: 80vw;
     }
 
+    .info h3{
+        font-size: 6vw;
+    }
+
+    .info p{
+        font-size: 3vw;
+    }
+
     #info-1{
         top: 50vw;
         left: 10vw;
@@ -128,27 +165,56 @@
         margin-bottom: 0 !important;
     }
 
-    #point-1{
-        top: 28.5vw;
-        right: 45.5vw;
-    }
-    #point-2{
-        top: 41.5vw;
-        right: 28vw;
+
+
+    .area {
+    position: relative; /* Importante para que los puntos se posicionen dentro de ellos */
+    border-radius: 100%;
+    width: 22vw;
+    height: 22vw;
     }
 
-    #area-1{
-        top: 21vw;
-        right: 38.2vw;
-        width: 17vw;
-        height: 17vw;
+    #area-1 {
+        background-color: rgba(189, 6, 37, 0.5);
+        z-index: 5;
+        top: 20vw;
+        right: 0vw;
+        left:13.8vw;
+        border: #BD0625 solid 0.2vw;
     }
 
-    #area-2{
-        top: 34vw;
-        right: 21vw;
-        width: 17vw;
-        height: 17vw;
+    #area-2 {
+        background-color: rgba(63, 165, 42, 0.5);
+        z-index: 2;
+        top: 32.2vw;
+        right: 0vw;
+        left:10vw;
+        border: #3FA52A solid 0.2vw;
+    }
+
+    /* Estilos de los puntos centrados */
+    #point-1, #point-2 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 1.5vw; /* Un tamaño más pequeño para que parezca un punto */
+        height: 1.5vw;
+        border-radius: 50%; /* Para que sea circular */
+    }
+
+    #point-1 {
+        background-color: #BD0625;
+        z-index: 2;
+    }
+
+    #point-2 {
+        background-color: #3FA52A;
+        z-index: 3; /* Asegúrate de que estén por encima de #area-2 si es necesario */
+    }
+
+    .arrows-svg{
+        display: none;
     }
 
 }
