@@ -1,0 +1,42 @@
+#fh5co-services{
+    background-color: white !important; 
+}
+
+#section-1 h2{
+    color: #3FA52A;
+}
+
+#section-1 h3{
+    color:black;
+}
+
+#section-1 h2, h3{
+    padding-left: 5vw;
+    padding-right: 5vw;
+}
+
+.vacantes-container { 
+    max-width: 900px; 
+    margin: 0 auto; 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 20px; }
+.vacante-card { 
+    background: white; 
+    padding: 20px; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+.vacante-card h3 { 
+    margin-top: 0; }
+.vacante-card p { 
+    margin-bottom: 10px; }
+.btn-show-more { 
+    background: #007bff; 
+    color: white; 
+    border: none; 
+    padding: 10px 15px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    text-decoration: none; }
+.btn-show-more:hover { 
+    background: #0056b3; }
