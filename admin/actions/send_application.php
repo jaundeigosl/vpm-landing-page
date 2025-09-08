@@ -1,4 +1,10 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../PHPMailer/src/Exception.php';
+require '../PHPMailer/src/PHPMailer.php';
+require '../PHPMailer/src/SMTP.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -18,68 +24,60 @@ if (empty($nombre_completo) || empty($telefono) || empty($vacante_titulo) || emp
     exit();
 }
 
-$cv_adjunto = null;
-$nombre_cv = null;
-if (isset($_FILES['cv_adjunto']) && $_FILES['cv_adjunto']['error'] === UPLOAD_ERR_OK) {
-    $file_info = $_FILES['cv_adjunto'];
-    $nombre_cv = $file_info['name'];
-    $file_tmp = $file_info['tmp_name'];
+try {
+    $mail = new PHPMailer(true);
+    
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com'; // O el host de tu proveedor
+    $mail->SMTPAuth = true;
+    $mail->Username = 'tu_correo@gmail.com'; // Tu dirección de correo
+    $mail->Password = 'tu_contraseña_de_aplicación'; // Tu contraseña de aplicación (no la de tu cuenta)
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Usar SMTPS
+    $mail->Port = 465; // O el puerto de tu proveedor
 
-    $file_ext = strtolower(pathinfo($nombre_cv, PATHINFO_EXTENSION));
-    if ($file_ext !== 'pdf') {
-        http_response_code(400);
-        echo json_encode(['success' => false, 'message' => 'El archivo adjunto debe ser un PDF.']);
-        exit();
+    // Destinatarios
+    $mail->setFrom('no-reply@tudominio.com', 'Sistema de Aplicaciones');
+    $mail->addAddress('destinatario@tudominio.com', 'Departamento de RH');
+    $mail->addReplyTo($correo_electronico, $nombre_completo);
+
+    // Contenido del correo
+    $mail->isHTML(true);
+    $mail->Subject = "Nueva Aplicación para la vacante: " . $vacante_titulo;
+    $mail->Body    = "
+        <p>Se ha recibido una nueva aplicación para la vacante: <strong>{$vacante_titulo}</strong></p>
+        <hr>
+        <ul>
+            <li><strong>Nombre Completo:</strong> {$nombre_completo}</li>
+            <li><strong>Correo Electrónico:</strong> " . ($correo_electronico ?: 'No proporcionado') . "</li>
+            <li><strong>Teléfono:</strong> {$telefono}</li>
+        </ul>
+        <p><strong>Mensaje Adicional:</strong></p>
+        <p>{$mensaje_adicional}</p>
+        <p>Se adjunta el CV del aplicante.</p>
+    ";
+
+    // Adjuntar el archivo si se ha subido
+    if (isset($_FILES['cv_adjunto']) && $_FILES['cv_adjunto']['error'] === UPLOAD_ERR_OK) {
+        $file_info = $_FILES['cv_adjunto'];
+        $nombre_cv = basename($file_info['name']);
+        $file_tmp = $file_info['tmp_name'];
+        $file_ext = strtolower(pathinfo($nombre_cv, PATHINFO_EXTENSION));
+
+        if ($file_ext !== 'pdf') {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'El archivo adjunto debe ser un PDF.']);
+            exit();
+        }
+        
+        $mail->addAttachment($file_tmp, $nombre_cv);
     }
 
-    $cv_adjunto = file_get_contents($file_tmp);
-} else {
-    http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'El CV es un campo obligatorio.']);
-    exit();
-}
+    $mail->send();
+    echo json_encode(['success' => true, 'message' => '¡Tu aplicación ha sido enviada con éxito!']);
 
-$to = 'tu_correo_de_destino@example.com'; // <-- Reemplaza esto con tu correo
-$subject = 'Nueva Aplicación para Vacante: ' . $vacante_titulo;
-$from = 'no-responder@tudominio.com'; // <-- Reemplaza esto con un correo de tu dominio
-
-$mime_boundary = '----=_Part_' . md5(time()) . rand(1000, 9999);
-$headers = "From: " . $from . "\r\n";
-$headers .= "Reply-To: " . ($correo_electronico ? $correo_electronico : $from) . "\r\n";
-$headers .= "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: multipart/mixed; boundary=\"{$mime_boundary}\"\r\n";
-
-$message_body = "
---{$mime_boundary}
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<p>Se ha recibido una nueva aplicación para la vacante: <strong>{$vacante_titulo}</strong></p>
-<hr>
-<ul>
-    <li><strong>Nombre Completo:</strong> {$nombre_completo}</li>
-    <li><strong>Correo Electrónico:</strong> " . ($correo_electronico ?: 'No proporcionado') . "</li>
-    <li><strong>Teléfono:</strong> {$telefono}</li>
-</ul>
-<p><strong>Mensaje Adicional:</strong></p>
-<p>{$mensaje_adicional}</p>
-<p>Se adjunta el CV del aplicante.</p>
-
-";
-
-$attachment_body = "--{$mime_boundary}\r\n";
-$attachment_body .= "Content-Type: application/pdf; name=\"{$nombre_cv}\"\r\n";
-$attachment_body .= "Content-Disposition: attachment; filename=\"{$nombre_cv}\"\r\n";
-$attachment_body .= "Content-Transfer-Encoding: base64\r\n\r\n";
-$attachment_body .= chunk_split(base64_encode($cv_adjunto));
-$attachment_body .= "\r\n--{$mime_boundary}--\r\n";
-
-if (mail($to, $subject, $message_body . $attachment_body, $headers)) {
-    http_response_code(200);
-    echo json_encode(['success' => true, 'message' => '¡Tu aplicación ha sido enviada exitosamente!']);
-} else {
+} catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Error al enviar la aplicación. Por favor, inténtalo más tarde.']);
+    echo json_encode(['success' => false, 'message' => "Error al enviar la aplicación. Inténtalo más tarde. Mailer Error: {$mail->ErrorInfo}"]);
 }
 
 ?>
