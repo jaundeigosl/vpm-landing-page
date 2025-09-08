@@ -1,29 +1,9 @@
-@font-face {
-  font-family: 'icomoon';
-  src: url("../fonts/icomoon/icomoon.eot?srf3rx");
-  src: url("../fonts/icomoon/icomoon.eot?srf3rx#iefix") format("embedded-opentype"), url("../fonts/icomoon/icomoon.ttf?srf3rx") format("truetype"), url("../fonts/icomoon/icomoon.woff?srf3rx") format("woff"), url("../fonts/icomoon/icomoon.svg?srf3rx#icomoon") format("svg");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'raleway';
-  src: url('../fonts/raleway/static/Raleway-Black.ttf');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'aptos';
-  src: url('../fonts/aptos/Aptos-Black.ttf');
-  font-weight: normal;
-  font-style: normal;
-}
+/* Importa las fuentes desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Liberation+Sans:wght@400;700;900&family=Raleway:wght@400;600;700&display=swap');
 
 /* =======================================================
 *
-* 	Template Style 
-*	Edit this section
+* Template Style 
 *
 * ======================================================= */
 #fondo{
@@ -34,7 +14,7 @@
 }
 
 body {
-  font-family: "railway";
+  font-family: 'Raleway', sans-serif;
   font-size: 20px;
   line-height: 1.6;
   color: #616370;
@@ -60,7 +40,7 @@ p {
 
 h1, h2, h3, h4, h5, h6 {
   color: #BD0625;
-  font-family: "aptos", sans-serif;
+  font-family: 'Liberation Sans', sans-serif;
   font-weight: 400;
   margin: 0 0 30px 0;
 }
@@ -107,7 +87,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 #fh5co-header #navbar li a {
-  font-family: "aptos", sans-serif;
+  font-family: 'Liberation Sans', sans-serif;
   position: relative;
   font-size: 1.2vw;
   font-weight: 400;
@@ -232,7 +212,7 @@ h1, h2, h3, h4, h5, h6 {
   padding-left: 0;
   color: #fff;
   text-transform: uppercase;
-  font-family: "aptos", sans-serif;
+  font-family: 'Liberation Sans', sans-serif;
   margin-top:1.5vw;
 }
 
@@ -484,7 +464,7 @@ img {
   color: #fff;
 }
 #fh5co-home h2 {
-  font-family: "aptos", sans-serif;
+  font-family: 'Liberation Sans', sans-serif;
   font-size: 16px !important;
 }
 #fh5co-home a {
@@ -577,7 +557,7 @@ img {
   -ms-border-radius: 4px;
   border-radius: 4px;
   margin-right: 10px;
-  font-family: "aptos", sans-serif;
+  font-family: 'Liberation Sans', sans-serif;
   -webkit-box-shadow: 0px 3px 6px -1px rgba(0, 0, 0, 0.19);
   -moz-box-shadow: 0px 3px 6px -1px rgba(0, 0, 0, 0.19);
   -ms-box-shadow: 0px 3px 6px -1px rgba(0, 0, 0, 0.19);
@@ -720,7 +700,7 @@ img {
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 700;
-  font-family: "raleway", sans-serif !important;
+  font-family: 'Raleway', sans-serif !important;
 }
 #fh5co-testimony .wrap-testimony .testimony-slide span a.twitter {
   color: #d73930;
@@ -816,7 +796,7 @@ img {
   padding: 18px 60px;
   background: #fff;
   color: #BD0625;
-  font-family: "aptos", sans-serif !important;
+  font-family: 'Liberation Sans', sans-serif !important;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
@@ -1235,7 +1215,7 @@ img {
   position: relative;
   display: block;
   padding-bottom: 30px;
-  font-family: "aptos", serif;
+  font-family: 'Liberation Sans', sans-serif;
 }
 .section-heading h3:after {
   content: "";
@@ -1494,7 +1474,7 @@ img {
   -webkit-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s;
-  font-family: "aptos", Arial, sans-serif !important;
+  font-family: 'Liberation Sans', sans-serif !important;
 }
 
 .fh5co-nav-toggle {
@@ -1604,6 +1584,7 @@ img {
   .getting-started{
     text-align: center;
   }
+
 
   .getting-started .row{
 
