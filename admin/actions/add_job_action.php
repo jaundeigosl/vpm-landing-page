@@ -25,20 +25,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $database = new Database();
         $db = $database->getConnection();
-
-        $usuario_id = $_SESSION['user_id'];
-
+        
         $query = "INSERT INTO vacantes 
-                  (nombre_puesto, ubicacion, resumen, requisitos, edad, sexo, escolaridad, conocimientos, funciones, beneficios, sueldo, prestaciones, usuario_id) 
-                  VALUES (:nombre_puesto, :ubicacion, :resumen, :requisitos, :edad, :sexo, :escolaridad, :conocimientos, :funciones, :beneficios, :sueldo, :prestaciones, :usuario_id)";
+                  (nombre_puesto, ubicacion, resumen, requisitos, edad, sexo, escolaridad, conocimientos, funciones, beneficios, sueldo, prestaciones) 
+                  VALUES (:nombre_puesto, :ubicacion, :resumen, :requisitos, :edad, :sexo, :escolaridad, :conocimientos, :funciones, :beneficios, :sueldo, :prestaciones)";
         
         $stmt = $db->prepare($query);
 
-        // Vincular los parámetros
         $stmt->bindParam(':nombre_puesto', $nombre_puesto);
         $stmt->bindParam(':ubicacion', $ubicacion);
         $stmt->bindParam(':resumen', $resumen);
-        $stmt->bindParam(':requisitos', $requisitos);
+        $stmt->bindParam(':requisitos', $requisitos); // Se ha añadido el parámetro para requisitos
         $stmt->bindParam(':edad', $edad);
         $stmt->bindParam(':sexo', $sexo);
         $stmt->bindParam(':escolaridad', $escolaridad);
@@ -47,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindParam(':beneficios', $beneficios);
         $stmt->bindParam(':sueldo', $sueldo);
         $stmt->bindParam(':prestaciones', $prestaciones);
-        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             header("Location: ../views/dashboard.php?message=add_success");

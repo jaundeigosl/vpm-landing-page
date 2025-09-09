@@ -26,6 +26,9 @@ if (isset($_GET['message'])) {
         echo '<div class="alert error">' . htmlspecialchars($error_message) . '</div>';
     }
 }
+
+// Asume que esta variable de sesión se establece en el inicio de sesión
+$is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 ?>
 <div class="dashboard-container">
     <h1>Panel de Administración</h1>
@@ -39,8 +42,13 @@ if (isset($_GET['message'])) {
             <button class="btn btn-add" id="openAddJobModal">Agregar Nuevo Puesto</button>
         </div>
         <div class="dashboard-actions">
-            <a href="change_password.php" class="btn btn-primary">Cambiar Contraseña</a>
+            <a href="#" class="btn btn-primary" id="openChangePasswordBtn">Cambiar Contraseña</a>
             <a href="../actions/logout_action.php" class="btn btn-danger">Cerrar Sesión</a>
+            
+            <?php if ($is_admin): ?>
+            <button class="btn btn-success" id="openCreateUserModal">Crear Usuario</button>
+            <button class="btn btn-danger" id="openDeleteUserModal">Eliminar Usuario</button>
+            <?php endif; ?>
         </div>
         
         <div class="table-responsive">
@@ -162,30 +170,303 @@ if (isset($_GET['message'])) {
     </div>
 </div>
 
+<div id="changePasswordModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" id="closeChangePasswordModal">&times;</span>
+        <h2>Cambiar Contraseña</h2>
+        <div id="change-password-message"></div>
+        <form id="changePasswordForm" action="../actions/change_password_action.php" method="POST">
+            <div class="form-group">
+                <label for="current_password">Contraseña Actual:</label>
+                <input type="password" id="current_password" name="current_password" required>
+            </div>
+            <div class="form-group">
+                <label for="new_password">Contraseña Nueva:</label>
+                <input type="password" id="new_password" name="new_password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Confirmar Contraseña Nueva:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <button type="button" class="btn btn-secondary" id="cancelChangePasswordModal">Cancelar</button>
+        </form>
+    </div>
+</div>
+
+<div id="createUserModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" id="closeCreateUserModal">&times;</span>
+        <h2>Crear Nuevo Usuario</h2>
+        <div id="create-user-message"></div>
+        <form id="createUserForm" action="../actions/create_user_action.php" method="POST">
+            <div class="form-group">
+                <label for="new_username">Nombre de Usuario:</label>
+                <input type="text" id="new_username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="new_user_password">Contraseña:</label>
+                <input type="password" id="new_user_password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Crear Usuario</button>
+            <button type="button" class="btn btn-secondary" id="cancelCreateUserModal">Cancelar</button>
+        </form>
+    </div>
+</div>
+
+<div id="deleteUserModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" id="closeDeleteUserModal">&times;</span>
+        <h2>Eliminar Usuario</h2>
+        <div id="delete-user-message"></div>
+        <div class="form-group">
+            <label for="userList">Selecciona un usuario a eliminar:</label>
+            <select id="userList" name="user_id" required>
+                </select>
+        </div>
+        <button type="button" class="btn btn-danger" id="confirmDeleteUserBtn">Eliminar Usuario Seleccionado</button>
+        <button type="button" class="btn btn-secondary" id="cancelDeleteUserModal">Cancelar</button>
+    </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Variables para los modales
+    // Variables para los modales existentes
     const addJobModal = document.getElementById('addJobModal');
     const openAddJobModalBtn = document.getElementById('openAddJobModal');
     const closeAddJobModalBtn = document.getElementById('closeAddJobModal');
     const cancelAddJobModalBtn = document.getElementById('cancelAddJobModal');
 
-    // Manejar modal de agregar
+    const changePasswordModal = document.getElementById('changePasswordModal');
+    const openChangePasswordBtn = document.getElementById('openChangePasswordBtn');
+    const closeChangePasswordBtn = document.getElementById('closeChangePasswordModal');
+    const cancelChangePasswordBtn = document.getElementById('cancelChangePasswordModal');
+    const changePasswordForm = document.getElementById('changePasswordForm');
+    const changePasswordMessageDiv = document.getElementById('change-password-message');
+
+    // Nuevas variables para los modales de administración
+    const createUserModal = document.getElementById('createUserModal');
+    const openCreateUserBtn = document.getElementById('openCreateUserModal');
+    const closeCreateUserBtn = document.getElementById('closeCreateUserModal');
+    const cancelCreateUserBtn = document.getElementById('cancelCreateUserModal');
+    const createUserForm = document.getElementById('createUserForm');
+    const createUserMessageDiv = document.getElementById('create-user-message');
+
+    const deleteUserModal = document.getElementById('deleteUserModal');
+    const openDeleteUserBtn = document.getElementById('openDeleteUserModal');
+    const closeDeleteUserBtn = document.getElementById('closeDeleteUserModal');
+    const cancelDeleteUserBtn = document.getElementById('cancelDeleteUserModal');
+    const userListSelect = document.getElementById('userList');
+    const confirmDeleteUserBtn = document.getElementById('confirmDeleteUserBtn');
+    const deleteUserMessageDiv = document.getElementById('delete-user-message');
+
+    // Manejar modal de agregar vacante
     if (openAddJobModalBtn && addJobModal) {
         openAddJobModalBtn.addEventListener('click', () => {
             addJobModal.style.display = 'block';
         });
     }
-
     if (closeAddJobModalBtn) {
         closeAddJobModalBtn.addEventListener('click', () => {
             addJobModal.style.display = 'none';
         });
     }
-
     if (cancelAddJobModalBtn) {
         cancelAddJobModalBtn.addEventListener('click', () => {
             addJobModal.style.display = 'none';
+        });
+    }
+    
+    // Manejar modal de cambiar contraseña
+    if (openChangePasswordBtn && changePasswordModal) {
+        openChangePasswordBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            changePasswordModal.style.display = 'block';
+        });
+    }
+    if (closeChangePasswordBtn) {
+        closeChangePasswordBtn.addEventListener('click', () => {
+            changePasswordModal.style.display = 'none';
+        });
+    }
+    if (cancelChangePasswordBtn) {
+        cancelChangePasswordBtn.addEventListener('click', () => {
+            changePasswordModal.style.display = 'none';
+        });
+    }
+    if (changePasswordForm) {
+        changePasswordForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(changePasswordForm);
+            if (formData.get('new_password') !== formData.get('confirm_password')) {
+                changePasswordMessageDiv.innerHTML = '<p style="color: red;">¡Las contraseñas nuevas no coinciden!</p>';
+                return;
+            }
+            changePasswordForm.style.display = 'none';
+            changePasswordMessageDiv.innerHTML = '<p>Guardando cambios...</p>';
+            fetch(changePasswordForm.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    changePasswordMessageDiv.innerHTML = `<p style="color: green;">${data.message}</p>`;
+                    setTimeout(() => {
+                        changePasswordModal.style.display = 'none';
+                        changePasswordForm.style.display = 'block';
+                        changePasswordForm.reset();
+                    }, 2000); 
+                } else {
+                    changePasswordMessageDiv.innerHTML = `<p style="color: red;">${data.message}</p>`;
+                    changePasswordForm.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                changePasswordMessageDiv.innerHTML = `<p style="color: red;">Error en la conexión. Inténtalo de nuevo.</p>`;
+                changePasswordForm.style.display = 'block';
+            });
+        });
+    }
+
+    // Manejar nuevo modal de Crear Usuario
+    if (openCreateUserBtn) {
+        openCreateUserBtn.addEventListener('click', () => {
+            createUserModal.style.display = 'block';
+            createUserMessageDiv.innerHTML = '';
+            createUserForm.reset();
+            createUserForm.style.display = 'block';
+        });
+    }
+    if (closeCreateUserBtn) {
+        closeCreateUserBtn.addEventListener('click', () => {
+            createUserModal.style.display = 'none';
+        });
+    }
+    if (cancelCreateUserBtn) {
+        cancelCreateUserBtn.addEventListener('click', () => {
+            createUserModal.style.display = 'none';
+        });
+    }
+    if (createUserForm) {
+        createUserForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(createUserForm);
+            
+            createUserForm.style.display = 'none';
+            createUserMessageDiv.innerHTML = '<p>Creando usuario...</p>';
+            
+            fetch(createUserForm.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    createUserMessageDiv.innerHTML = `<p style="color: green;">${data.message}</p>`;
+                    setTimeout(() => {
+                        createUserModal.style.display = 'none';
+                        createUserForm.style.display = 'block';
+                        createUserForm.reset();
+                    }, 2000);
+                } else {
+                    createUserMessageDiv.innerHTML = `<p style="color: red;">${data.message}</p>`;
+                    createUserForm.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                createUserMessageDiv.innerHTML = `<p style="color: red;">Error en la conexión. Inténtalo de nuevo.</p>`;
+                createUserForm.style.display = 'block';
+            });
+        });
+    }
+
+    // Manejar nuevo modal de Eliminar Usuario
+    if (openDeleteUserBtn) {
+        openDeleteUserBtn.addEventListener('click', () => {
+            deleteUserModal.style.display = 'block';
+            deleteUserMessageDiv.innerHTML = '';
+            userListSelect.innerHTML = ''; // Limpia la lista anterior
+            fetchUsersForDeletion();
+        });
+    }
+    if (closeDeleteUserBtn) {
+        closeDeleteUserBtn.addEventListener('click', () => {
+            deleteUserModal.style.display = 'none';
+        });
+    }
+    if (cancelDeleteUserBtn) {
+        cancelDeleteUserBtn.addEventListener('click', () => {
+            deleteUserModal.style.display = 'none';
+        });
+    }
+    if (confirmDeleteUserBtn) {
+        confirmDeleteUserBtn.addEventListener('click', () => {
+            const userId = userListSelect.value;
+            if (userId) {
+                if (confirm('¿Estás seguro de que deseas eliminar a este usuario?')) {
+                    deleteUser(userId);
+                }
+            } else {
+                deleteUserMessageDiv.innerHTML = '<p style="color: red;">Por favor, selecciona un usuario.</p>';
+            }
+        });
+    }
+
+    // Función para obtener la lista de usuarios no administradores
+    function fetchUsersForDeletion() {
+        deleteUserMessageDiv.innerHTML = '<p>Cargando usuarios...</p>';
+        fetch('../actions/get_usuarios.php')
+            .then(response => response.json())
+            .then(data => {
+                deleteUserMessageDiv.innerHTML = '';
+                if (data.success) {
+                    if (data.users.length > 0) {
+                        data.users.forEach(user => {
+                            const option = document.createElement('option');
+                            option.value = user.id;
+                            option.textContent = user.username;
+                            userListSelect.appendChild(option);
+                        });
+                    } else {
+                        deleteUserMessageDiv.innerHTML = '<p>No hay usuarios para eliminar.</p>';
+                    }
+                } else {
+                    deleteUserMessageDiv.innerHTML = `<p style="color: red;">Error: ${data.message}</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                deleteUserMessageDiv.innerHTML = '<p style="color: red;">Error al cargar la lista de usuarios.</p>';
+            });
+    }
+
+    // Función para eliminar un usuario
+    function deleteUser(userId) {
+        deleteUserMessageDiv.innerHTML = '<p>Eliminando usuario...</p>';
+        const formData = new FormData();
+        formData.append('id', userId);
+        
+        fetch('../actions/delete_user_action.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                deleteUserMessageDiv.innerHTML = `<p style="color: green;">${data.message}</p>`;
+                setTimeout(() => {
+                    deleteUserModal.style.display = 'none';
+                }, 2000);
+            } else {
+                deleteUserMessageDiv.innerHTML = `<p style="color: red;">${data.message}</p>`;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            deleteUserMessageDiv.innerHTML = '<p style="color: red;">Error en la conexión. No se pudo eliminar el usuario.</p>';
         });
     }
 
@@ -193,6 +474,15 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('click', (event) => {
         if (event.target === addJobModal) {
             addJobModal.style.display = 'none';
+        }
+        if (event.target === changePasswordModal) {
+            changePasswordModal.style.display = 'none';
+        }
+        if (event.target === createUserModal) {
+            createUserModal.style.display = 'none';
+        }
+        if (event.target === deleteUserModal) {
+            deleteUserModal.style.display = 'none';
         }
         
         const editModal = document.getElementById('editJobModal');
