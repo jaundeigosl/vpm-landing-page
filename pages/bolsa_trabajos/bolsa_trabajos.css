@@ -2,11 +2,12 @@
     background-color: white !important; 
 }
 
-#section-1 h2{
-    color: #3FA52A;
+#section-1 h3{
+    color: black;
+    text-align: center;
 }
 
-#section-1 h3{
+#section-1 h2{
     color:black;
 }
 
@@ -40,3 +41,13 @@
     text-decoration: none; }
 .btn-show-more:hover { 
     background: #0056b3; }
+
+    #section-2 h3{
+        color:#3FA52A;
+    }
+
+@media screen and (max-width: 992px){
+    #section-1 .row{
+        margin: 0;
+    }
+}

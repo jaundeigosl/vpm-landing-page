@@ -65,7 +65,8 @@
         display: none;
     }
 
-@media screen and (max-width: 760px){
+@media screen and (max-width: 992px){
+
 
     #desktop{
         display:none !important;
@@ -75,8 +76,8 @@
         display: block;
     }
 
-    #fh5co-home .text-inner h1{
-        font-size: 11vw;
+    section#fh5co-home div.container div.text-wrap div.text-inner div.row div.col-md-10.col-md-offset-1.to-animate h1#titulo-id.titulo-clase {
+        font-size: 10vw !important;
 
     }
 

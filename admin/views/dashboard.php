@@ -699,7 +699,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <style>
 .dashboard-container {
     padding: 20px;
-    max-width: 1400px;
+    max-width: 1800px; /* Aumenté el ancho máximo */
     margin: 0 auto;
 }
 
@@ -741,18 +741,97 @@ document.addEventListener('DOMContentLoaded', () => {
     margin-bottom: 20px;
     border: 1px solid #dee2e6;
     border-radius: 5px;
+    max-width: 100%;
 }
 
 .jobs-table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: auto; /* Cambiado a auto para permitir anchos variables */
 }
 
 .jobs-table th, .jobs-table td {
-    padding: 10px;
+    padding: 12px 10px; /* Aumenté el padding vertical */
     text-align: left;
     border-bottom: 1px solid #dee2e6;
     font-size: 14px;
+    word-wrap: break-word;
+}
+
+/* Especificar anchos personalizados para cada columna */
+.jobs-table th:nth-child(1), .jobs-table td:nth-child(1) { /* Nombre del Puesto */
+    min-width: 150px;
+    max-width: 180px;
+}
+
+.jobs-table th:nth-child(2), .jobs-table td:nth-child(2) { /* Ubicación */
+    min-width: 120px;
+    max-width: 150px;
+}
+
+.jobs-table th:nth-child(3), .jobs-table td:nth-child(3) { /* Resumen */
+    min-width: 200px;
+    max-width: 250px;
+}
+
+.jobs-table th:nth-child(4), .jobs-table td:nth-child(4) { /* Requisitos */
+    min-width: 200px;
+    max-width: 250px;
+}
+
+.jobs-table th:nth-child(5), .jobs-table td:nth-child(5) { /* Edad */
+    min-width: 70px;
+    max-width: 90px;
+}
+
+.jobs-table th:nth-child(6), .jobs-table td:nth-child(6) { /* Sexo */
+    min-width: 80px;
+    max-width: 100px;
+}
+
+.jobs-table th:nth-child(7), .jobs-table td:nth-child(7) { /* Escolaridad */
+    min-width: 120px;
+    max-width: 150px;
+}
+
+.jobs-table th:nth-child(8), .jobs-table td:nth-child(8) { /* Conocimientos */
+    min-width: 180px;
+    max-width: 220px;
+}
+
+.jobs-table th:nth-child(9), .jobs-table td:nth-child(9) { /* Funciones */
+    min-width: 180px;
+    max-width: 220px;
+}
+
+.jobs-table th:nth-child(10), .jobs-table td:nth-child(10) { /* Beneficios */
+    min-width: 180px;
+    max-width: 220px;
+}
+
+.jobs-table th:nth-child(11), .jobs-table td:nth-child(11) { /* Sueldo */
+    min-width: 100px;
+    max-width: 120px;
+}
+
+.jobs-table th:nth-child(12), .jobs-table td:nth-child(12) { /* Prestaciones */
+    min-width: 150px;
+    max-width: 180px;
+}
+
+.jobs-table th:nth-child(13), .jobs-table td:nth-child(13) { /* Fecha Creación */
+    min-width: 120px;
+    max-width: 140px;
+}
+
+.jobs-table th:nth-child(14), .jobs-table td:nth-child(14) { /* Fecha Modificación */
+    min-width: 120px;
+    max-width: 140px;
+}
+
+.jobs-table th:nth-child(15), .jobs-table td:nth-child(15) { /* Acciones */
+    min-width: 120px;
+    max-width: 140px;
 }
 
 .jobs-table th {
@@ -760,6 +839,7 @@ document.addEventListener('DOMContentLoaded', () => {
     position: sticky;
     top: 0;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .jobs-table th:hover {
@@ -768,6 +848,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 .jobs-table tr:hover {
     background-color: #f8f9fa;
+}
+
+/* Estilos para mejorar la visualización de textos largos */
+.jobs-table td {
+    vertical-align: top;
+}
+
+.jobs-table td:not(:nth-child(15)) { /* Aplicar a todas las celdas excepto Acciones */
+    max-height: 120px;
+    overflow-y: auto;
 }
 
 .btn {
@@ -879,7 +969,7 @@ document.addEventListener('DOMContentLoaded', () => {
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    max-width: 800px;
+    max-width: 900px; /* Aumenté el ancho máximo del modal */
     border-radius: 8px;
     position: relative;
     max-height: 90vh;
@@ -942,10 +1032,43 @@ document.addEventListener('DOMContentLoaded', () => {
     border-color: #ebccd1;
 }
 
-/* Responsividad */
+/* Mejoras de responsividad */
+@media (max-width: 1600px) {
+    .dashboard-container {
+        max-width: 1500px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .dashboard-container {
+        max-width: 1300px;
+    }
+    
+    .jobs-table th, .jobs-table td {
+        font-size: 13px;
+        padding: 10px 8px;
+    }
+}
+
 @media (max-width: 1200px) {
+    .dashboard-container {
+        max-width: 1100px;
+        padding: 15px;
+    }
+    
     .jobs-table {
         min-width: 1000px;
+    }
+}
+
+@media (max-width: 992px) {
+    .dashboard-container {
+        max-width: 95%;
+    }
+    
+    .modal-content {
+        width: 90%;
+        max-width: 95%;
     }
 }
 
@@ -966,7 +1089,59 @@ document.addEventListener('DOMContentLoaded', () => {
     .modal-content {
         width: 95%;
         margin: 10% auto;
+        padding: 15px;
     }
+    
+    .dashboard-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .dashboard-actions .btn {
+        flex: 1;
+        min-width: 120px;
+        text-align: center;
+    }
+}
+
+/* Estilo para mejorar la visualización de textos largos */
+.text-truncate {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 250px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -125px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
 }
 </style>
 

@@ -206,7 +206,7 @@ h1, h2, h3, h4, h5, h6 {
 #fh5co-header .navbar-brand {
   float: left;
   display: flex;
-  padding:8.5px 15px;
+  padding:10.5px 15px;
   font-size: 24px;
   font-weight: 700;
   padding-left: 0;
@@ -500,11 +500,22 @@ img {
     display: none;
   }
 
+  #fh5co-home, #fh5co-home .text-wrap {
+    height: 500px;
+  }
+
 }
 
-#fh5co-home, #fh5co-home .text-wrap {
+@media screen and (min-width: 992px){
+  #fh5co-home, #fh5co-home .text-wrap {
   height: 900px;
 }
+
+}
+
+
+
+
 #fh5co-home .text-wrap {
   display: table;
   width: 100%;
@@ -525,6 +536,17 @@ img {
   color:white !important;
 }
 
+@media screen and (max-width:992px){
+    #fh5co-home .text-inner h1 {
+    font-size: 45px !important;
+  }
+  #fh5co-home .text-inner h2 {
+  font-size: 38px !important;
+  line-height: 35px !important;
+}
+
+}
+
 #fh5co-home .text-inner h1 {
   font-size: 58px;
   text-transform: uppercase;
@@ -533,9 +555,16 @@ img {
   font-weight: 400;
   text-shadow: 1px 1px 2px black;
 }
+
+@media screen and (min-width:992px){
+  #fh5co-home .text-inner h2 {
+  font-size: 42px !important;}
+
+}
+
 #fh5co-home .text-inner h2 {
-  font-size: 42px !important;
-  line-height: 30px;
+  font-size: 42px;
+  line-height: 35px;
   font-weight: 300;
   color:#3FA52A;
   margin: 0 0 60px 0;

@@ -114,15 +114,18 @@
     pointer-events: none; /* Permite hacer clic a través del SVG si hay elementos debajo */
 }
 
+#fh5co-services{
+    background-color: white !important;
+}
+
 @media screen and (max-width: 760px){
 
      #fh5co-services{
         height: 130vw;
      }
 
-
-    #fh5co-home .text-inner h1{
-        font-size: 9vw;
+    #fh5co-home .text-inner h1#titulo-infra.titulo-infraestructura {
+        font-size: 8.8vw !important;
 
     }
 
