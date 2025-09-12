@@ -72,7 +72,7 @@
 
 	<section id="fh5co-home" data-section="home"  data-stellar-background-ratio="0.5">
 		<div class="overlay">
-			<img id="fondo" src="../../images/YPM-SESION-09411.webp">		
+			<img id="fondo" src="../../images/YPM-SESION-09497.webp">		
 		</div>
 		<div class="container">
 			<div class="text-wrap">
@@ -232,10 +232,9 @@
 
             // Evento para el botón "Aplicar"
             aplicarBtn.addEventListener('click', () => {
-                // Cierra el modal actual
                 modal.remove(); 
-                // Llama a la nueva función para mostrar el formulario
-                showAplicarModal(vacante.nombre_puesto);
+                // Pasar también el ID de la vacante
+                showAplicarModal(vacante.id, vacante.nombre_puesto);
             });
 
             // Cierra el modal si se hace clic fuera de él
@@ -315,6 +314,116 @@
             });
         }
 
+        // Función para mostrar el modal del formulario de aplicación
+        function showAplicarModal(vacanteId, tituloVacante) {
+            const aplicarModalHtml = `
+                <div id="aplicarModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-btn">&times;</span>
+                        <h2>Aplicar a: ${tituloVacante}</h2>
+                        <form id="aplicarForm" enctype="multipart/form-data">
+                            <input type="hidden" name="vacante_id" value="${vacanteId}">
+                            <input type="hidden" name="vacante_titulo" value="${tituloVacante}">
+                            
+                            <div class="form-group">
+                                <label for="nombre_completo">Nombre Completo:</label>
+                                <input type="text" id="nombre_completo" name="nombre_completo" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="correo_electronico">Correo Electrónico:</label>
+                                <input type="email" id="correo_electronico" name="correo_electronico" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="telefono">Teléfono:</label>
+                                <input type="tel" id="telefono" name="telefono" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cv_adjunto">Adjuntar CV (PDF, máximo 2MB):</label>
+                                <input type="file" id="cv_adjunto" name="cv_adjunto" accept=".pdf,.doc,.docx" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="mensaje_adicional">Mensaje Adicional:</label>
+                                <textarea id="mensaje_adicional" name="mensaje_adicional" rows="4"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn-submit">Enviar Aplicación</button>
+                        </form>
+                    </div>
+                </div>
+            `;
+
+            document.body.insertAdjacentHTML('beforeend', aplicarModalHtml);
+
+            const aplicarModal = document.getElementById('aplicarModal');
+            const closeBtn = aplicarModal.querySelector('.close-btn');
+            const aplicarForm = document.getElementById('aplicarForm');
+
+            // Evento para cerrar el modal
+            closeBtn.addEventListener('click', () => {
+                aplicarModal.remove();
+            });
+
+            // Cierra el modal si se hace clic fuera de él
+            window.addEventListener('click', (event) => {
+                if (event.target === aplicarModal) {
+                    aplicarModal.remove();
+                }
+            });
+
+            // Validación del formulario
+            aplicarForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        submitApplication(aplicarForm);
+    });
+}
+
+function submitApplication(form) {
+    const formData = new FormData(form);
+    const aplicarModal = document.getElementById('aplicarModal');
+    const submitBtn = form.querySelector('.btn-submit');
+    const originalBtnText = submitBtn.textContent;
+
+    // Mostrar estado de carga
+    submitBtn.textContent = 'Enviando...';
+    submitBtn.disabled = true;
+
+    fetch('../../admin/actions/procesar_aplicacion.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        // Verificar si la respuesta es OK
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        // Verificar el content type
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            throw new TypeError('La respuesta no es JSON');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            alert('¡Aplicación enviada con éxito! ');
+            aplicarModal.remove();
+        } else {
+            alert('Error: ' + data.message);
+            submitBtn.textContent = originalBtnText;
+            submitBtn.disabled = false;
+        }
+    })
+    .catch(error => {
+        console.error('Error completo:', error);
+        alert('Error al enviar la aplicación: ' + error.message);
+        submitBtn.textContent = originalBtnText;
+        submitBtn.disabled = false;
+    });
+}
     </script>
 	</body>
 </html>

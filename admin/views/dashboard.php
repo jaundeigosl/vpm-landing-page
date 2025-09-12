@@ -1,7 +1,7 @@
 <?php
 require_once '../includes/auth_middleware.php';
 require_once '../includes/header.php';
-require_once '../includes/get_vacantes.php';
+require_once '../actions/get_vacantes.php';
 
 authMiddleware();
 
@@ -46,7 +46,7 @@ $is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
             <a href="../actions/logout_action.php" class="btn btn-danger">Cerrar Sesión</a>
             
             <?php if ($is_admin): ?>
-            <button class="btn btn-success" id="openCreateUserModal">Crear Usuario</button>
+            <button class="btn btn-add" id="openCreateUserModal">Crear Usuario</button>
             <button class="btn btn-danger" id="openDeleteUserModal">Eliminar Usuario</button>
             <?php endif; ?>
         </div>
@@ -55,20 +55,11 @@ $is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
             <table id="jobsTable" class="jobs-table">
                 <thead>
                     <tr>
-                        <th>Nombre del Puesto </th>
-                        <th>Ubicación </th>
-                        <th>Resumen</th>
-                        <th>Requisitos</th>
-                        <th>Edad </th>
-                        <th>Sexo </th>
-                        <th>Escolaridad </th>
-                        <th>Conocimientos</th>
-                        <th>Funciones</th>
-                        <th>Beneficios</th>
-                        <th>Sueldo </th>
-                        <th>Prestaciones</th>
-                        <th>Fecha Creación </th>
-                        <th>Fecha Modificación </th>
+                        <th>Nombre del Puesto</th>
+                        <th>Aplicaciones</th> <!-- Nueva columna -->
+                        <th>Fecha Creación</th>
+                        <th>Fecha Modificación</th>
+                        <th>Detalles</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -77,19 +68,19 @@ $is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
                         <?php foreach ($vacantes as $vacante): ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($vacante['nombre_puesto']); ?></td>
-                                <td><?php echo htmlspecialchars($vacante['ubicacion']); ?></td>
-                                <td><?php echo htmlspecialchars($vacante['resumen']); ?></td>
-                                <td><?php echo htmlspecialchars($vacante['requisitos']); ?></td>
-                                <td><?php echo htmlspecialchars($vacante['edad']); ?></td>
-                                <td><?php echo htmlspecialchars($vacante['sexo']); ?></td>
-                                <td><?php echo htmlspecialchars($vacante['escolaridad']); ?></td>
-                                <td><?php echo htmlspecialchars($vacante['conocimientos']); ?></td>
-                                <td><?php echo htmlspecialchars($vacante['funciones']); ?></td>
-                                <td><?php echo htmlspecialchars($vacante['beneficios']); ?></td>
-                                <td>$<?php echo htmlspecialchars(number_format($vacante['sueldo'], 2)); ?></td>
-                                <td><?php echo htmlspecialchars($vacante['prestaciones']); ?></td>
+                                <td class="application-count">
+                                    <?php 
+                                    $count = isset($vacante['aplicaciones']) ? intval($vacante['aplicaciones']) : 0;
+                                    echo htmlspecialchars($count);
+                                    ?>
+                                </td>
                                 <td><?php echo htmlspecialchars($vacante['fecha_creacion']); ?></td>
-                                <td><?php echo htmlspecialchars($vacante['fecha_modificacion']); ?></td>
+                                <td><?php $fecha_actualizacion = isset(($vacante['fecha_actualizacion'])) ? htmlspecialchars($vacante['fecha_actualizacion']) : "Sin modificaciones"; 
+                                    echo $fecha_actualizacion;
+                                ?></td>
+                                <td>
+                                    <button class="btn btn-view" data-id="<?php echo htmlspecialchars($vacante['id']); ?>">Ver Detalles</button>
+                                </td>
                                 <td>
                                     <button class="btn btn-edit" data-id="<?php echo htmlspecialchars($vacante['id']); ?>">Editar</button>
                                     <button class="btn btn-delete" data-id="<?php echo htmlspecialchars($vacante['id']); ?>">Eliminar</button>
@@ -98,7 +89,7 @@ $is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="15">No se encontraron registros de vacantes.</td>
+                            <td colspan="6">No se encontraron registros de vacantes.</td> <!-- Cambiado a 6 columnas -->
                         </tr>
                     <?php endif; ?>
                 </tbody>
@@ -107,6 +98,7 @@ $is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
     </div>
 </div>
 
+<!-- Modal para agregar nuevo puesto -->
 <div id="addJobModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" id="closeAddJobModal">&times;</span>
@@ -130,7 +122,7 @@ $is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
             </div>
             <div class="form-group">
                 <label for="edad">Edad:</label>
-                <input type="number" id="edad" name="edad" required>
+                <input type="text" id="edad" name="edad" required>
             </div>
             <div class="form-group">
                 <label for="sexo">Sexo:</label>
@@ -170,6 +162,36 @@ $is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
     </div>
 </div>
 
+
+<!-- Modal para ver aplicaciones -->
+<div id="viewApplicationsModal" class="modal">
+    <div class="modal-content" style="max-width: 900px;">
+        <span class="close-btn" id="closeViewApplicationsModal">&times;</span>
+        <h2>Aplicaciones para: <span id="applications-job-title"></span></h2>
+        <div id="applications-content" class="applications-content">
+            <!-- Las aplicaciones se cargarán aquí mediante JavaScript -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="closeViewApplicationsBtn">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para ver detalles de la vacante (solo lectura) -->
+<div id="viewJobModal" class="modal">
+    <div class="modal-content" style="max-width: 800px;">
+        <span class="close-btn" id="closeViewJobModal">&times;</span>
+        <h2>Detalles del Puesto</h2>
+        <div id="view-job-content" class="view-job-content">
+            <!-- Los detalles se cargarán aquí mediante JavaScript -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="closeViewJobBtn">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para cambiar contraseña -->
 <div id="changePasswordModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" id="closeChangePasswordModal">&times;</span>
@@ -194,6 +216,7 @@ $is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
     </div>
 </div>
 
+<!-- Modal para crear usuario -->
 <div id="createUserModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" id="closeCreateUserModal">&times;</span>
@@ -214,6 +237,7 @@ $is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
     </div>
 </div>
 
+<!-- Modal para eliminar usuario -->
 <div id="deleteUserModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" id="closeDeleteUserModal">&times;</span>
@@ -231,8 +255,15 @@ $is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Variables para los modales existentes
+    // Variables para los modales
+
+    const viewApplicationsModal = document.getElementById('viewApplicationsModal');
+    const closeViewApplicationsBtn = document.getElementById('closeViewApplicationsBtn');
+    const closeViewApplicationsModalBtn = document.getElementById('closeViewApplicationsModal');
+    const applicationsContent = document.getElementById('applications-content');
+    const applicationsJobTitle = document.getElementById('applications-job-title');
     const addJobModal = document.getElementById('addJobModal');
+
     const openAddJobModalBtn = document.getElementById('openAddJobModal');
     const closeAddJobModalBtn = document.getElementById('closeAddJobModal');
     const cancelAddJobModalBtn = document.getElementById('cancelAddJobModal');
@@ -244,7 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const changePasswordForm = document.getElementById('changePasswordForm');
     const changePasswordMessageDiv = document.getElementById('change-password-message');
 
-    // Nuevas variables para los modales de administración
     const createUserModal = document.getElementById('createUserModal');
     const openCreateUserBtn = document.getElementById('openCreateUserModal');
     const closeCreateUserBtn = document.getElementById('closeCreateUserModal');
@@ -259,6 +289,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const userListSelect = document.getElementById('userList');
     const confirmDeleteUserBtn = document.getElementById('confirmDeleteUserBtn');
     const deleteUserMessageDiv = document.getElementById('delete-user-message');
+
+    // Nuevos elementos para el modal de visualización
+    const viewJobModal = document.getElementById('viewJobModal');
+    const closeViewJobBtn = document.getElementById('closeViewJobBtn');
+    const closeViewJobModalBtn = document.getElementById('closeViewJobModal');
+    const viewJobContent = document.getElementById('view-job-content');
 
     // Manejar modal de agregar vacante
     if (openAddJobModalBtn && addJobModal) {
@@ -330,7 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Manejar nuevo modal de Crear Usuario
+    // Manejar modal de Crear Usuario
     if (openCreateUserBtn) {
         openCreateUserBtn.addEventListener('click', () => {
             createUserModal.style.display = 'block';
@@ -383,7 +419,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Manejar nuevo modal de Eliminar Usuario
+    // Manejar modal de ver aplicaciones
+    if (closeViewApplicationsBtn) {
+        closeViewApplicationsBtn.addEventListener('click', () => {
+            viewApplicationsModal.style.display = 'none';
+        });
+    }
+
+    if (closeViewApplicationsModalBtn) {
+        closeViewApplicationsModalBtn.addEventListener('click', () => {
+            viewApplicationsModal.style.display = 'none';
+        });
+    }
+
+    // Manejar modal de Eliminar Usuario
     if (openDeleteUserBtn) {
         openDeleteUserBtn.addEventListener('click', () => {
             deleteUserModal.style.display = 'block';
@@ -414,6 +463,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Manejar modal de ver detalles
+    if (closeViewJobBtn) {
+        closeViewJobBtn.addEventListener('click', () => {
+            viewJobModal.style.display = 'none';
+        });
+    }
+
+    if (closeViewJobModalBtn) {
+        closeViewJobModalBtn.addEventListener('click', () => {
+            viewJobModal.style.display = 'none';
+        });
+    }
+
+    // Event listener para botones de ver detalles
+    document.addEventListener('click', (event) => {
+        if (event.target.classList.contains('btn-view')) {
+            const vacanteId = event.target.getAttribute('data-id');
+            fetchVacanteDetails(vacanteId, true); // true indica que es para vista
+        }
+    });
 
     // Función para obtener la lista de usuarios no administradores
     function fetchUsersForDeletion() {
@@ -470,6 +540,98 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Función para mostrar detalles de vacante en modal de solo lectura
+    function showViewModal(vacante) {
+        viewJobContent.innerHTML = `
+            <div class="view-details-container">
+                <div class="detail-row">
+                    <div class="detail-label">Nombre del Puesto:</div>
+                    <div class="detail-value">${vacante.nombre_puesto}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Ubicación:</div>
+                    <div class="detail-value">${vacante.ubicacion}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Resumen:</div>
+                    <div class="detail-value">${vacante.resumen}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Requisitos:</div>
+                    <div class="detail-value">${vacante.requisitos}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Edad:</div>
+                    <div class="detail-value">${vacante.edad}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Sexo:</div>
+                    <div class="detail-value">${vacante.sexo === 'M' ? 'Masculino' : (vacante.sexo === 'F' ? 'Femenino' : 'Indistinto')}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Escolaridad:</div>
+                    <div class="detail-value">${vacante.escolaridad}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Conocimientos:</div>
+                    <div class="detail-value">${vacante.conocimientos}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Funciones:</div>
+                    <div class="detail-value">${vacante.funciones}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Beneficios:</div>
+                    <div class="detail-value">${vacante.beneficios}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Sueldo:</div>
+                    <div class="detail-value">$${parseFloat(vacante.sueldo).toLocaleString('es-MX', {minimumFractionDigits: 2})}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Prestaciones:</div>
+                    <div class="detail-value">${vacante.prestaciones}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Fecha Creación:</div>
+                    <div class="detail-value">${vacante.fecha_creacion}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Fecha Modificación:</div>
+                    <div class="detail-value">${vacante.fecha_modificacion}</div>
+                </div>
+            </div>
+        `;
+        viewJobModal.style.display = 'block';
+    }
+
+    // Modificar la función fetchVacanteDetails para soportar ambos modos
+    function fetchVacanteDetails(id, viewOnly = false) {
+        fetch(`../actions/get_job_details.php?id=${id}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(vacante => {
+                if (vacante.error) {
+                    alert('Error al cargar la vacante: ' + vacante.error);
+                    return;
+                }
+                
+                if (viewOnly) {
+                    showViewModal(vacante);
+                } else {
+                    showEditModal(vacante);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al obtener los datos de la vacante.');
+            });
+    }
+
     // Cerrar modal al hacer clic fuera
     window.addEventListener('click', (event) => {
         if (event.target === addJobModal) {
@@ -484,11 +646,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target === deleteUserModal) {
             deleteUserModal.style.display = 'none';
         }
+        if (event.target === viewJobModal) {
+            viewJobModal.style.display = 'none';
+        }
         
         const editModal = document.getElementById('editJobModal');
         if (event.target === editModal) {
             editModal.style.display = 'none';
         }
+        if (event.target === viewApplicationsModal) {
+            viewApplicationsModal.style.display = 'none';
+        }
+
     });
 
     const jobsTable = document.getElementById('jobsTable');
@@ -539,7 +708,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         <div class="form-group">
                             <label for="edit_edad">Edad:</label>
-                            <input type="number" id="edit_edad" name="edad" value="${vacante.edad}" required>
+                            <input type="text" id="edit_edad" name="edad" value="${vacante.edad}" required>
                         </div>
                         
                         <div class="form-group">
@@ -667,31 +836,37 @@ document.addEventListener('DOMContentLoaded', () => {
             const row = target.closest('tr');
             deleteVacante(vacanteId, row);
         }
+        // El evento para btn-view se maneja con el event listener general arriba
     });
 
-    function fetchVacanteDetails(id) {
-        console.log('Obteniendo detalles para ID:', id);
-        
-        fetch(`../actions/get_job_details.php?id=${id}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok: ' + response.status);
-                }
-                return response.json();
-            })
-            .then(vacante => {
-                console.log('Datos recibidos:', vacante);
-                if (vacante.error) {
-                    alert('Error al cargar la vacante: ' + vacante.error);
-                    return;
-                }
-                showEditModal(vacante);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error al obtener los datos de la vacante. Revisa la consola del navegador para más detalles.');
-            });
-    }
+    // Función para obtener y mostrar aplicaciones
+function fetchApplications(vacanteId) {
+    applicationsContent.innerHTML = '<p>Cargando aplicaciones...</p>';
+    
+    function fetchApplications(vacanteId) {
+    applicationsContent.innerHTML = '<p>No hay sistema de gestión de aplicaciones implementado.</p>';
+    applicationsJobTitle.textContent = 'Vacante ID: ' + vacanteId;
+    viewApplicationsModal.style.display = 'block';
+}
+}
+
+// Función para mostrar aplicaciones en modal
+function showApplicationsModal(applications, jobTitle) {
+    applicationsJobTitle.textContent = jobTitle;
+    applicationsContent.innerHTML = `
+        <div class="applications-info">
+            <p>El conteo de aplicaciones se almacena en la columna "aplicaciones" de la tabla vacantes.</p>
+            <p>Para un sistema completo de gestión de aplicaciones, se necesitaría:</p>
+            <ul>
+                <li>Una tabla separada "aplicaciones"</li>
+                <li>Formularios de aplicación</li>
+                <li>Sistema de upload de CVs</li>
+                <li>Gestión de candidatos</li>
+            </ul>
+        </div>
+    `;
+    viewApplicationsModal.style.display = 'block';
+}
 
 });
 </script>
@@ -699,7 +874,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <style>
 .dashboard-container {
     padding: 20px;
-    max-width: 1800px; /* Aumenté el ancho máximo */
+    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -747,119 +922,25 @@ document.addEventListener('DOMContentLoaded', () => {
 .jobs-table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: auto; /* Cambiado a auto para permitir anchos variables */
 }
 
 .jobs-table th, .jobs-table td {
-    padding: 12px 10px; /* Aumenté el padding vertical */
-    text-align: left;
+    padding: 12px 10px;
+    text-align: center;
     border-bottom: 1px solid #dee2e6;
-    font-size: 14px;
-    word-wrap: break-word;
-}
-
-/* Especificar anchos personalizados para cada columna */
-.jobs-table th:nth-child(1), .jobs-table td:nth-child(1) { /* Nombre del Puesto */
-    min-width: 150px;
-    max-width: 180px;
-}
-
-.jobs-table th:nth-child(2), .jobs-table td:nth-child(2) { /* Ubicación */
-    min-width: 120px;
-    max-width: 150px;
-}
-
-.jobs-table th:nth-child(3), .jobs-table td:nth-child(3) { /* Resumen */
-    min-width: 200px;
-    max-width: 250px;
-}
-
-.jobs-table th:nth-child(4), .jobs-table td:nth-child(4) { /* Requisitos */
-    min-width: 200px;
-    max-width: 250px;
-}
-
-.jobs-table th:nth-child(5), .jobs-table td:nth-child(5) { /* Edad */
-    min-width: 70px;
-    max-width: 90px;
-}
-
-.jobs-table th:nth-child(6), .jobs-table td:nth-child(6) { /* Sexo */
-    min-width: 80px;
-    max-width: 100px;
-}
-
-.jobs-table th:nth-child(7), .jobs-table td:nth-child(7) { /* Escolaridad */
-    min-width: 120px;
-    max-width: 150px;
-}
-
-.jobs-table th:nth-child(8), .jobs-table td:nth-child(8) { /* Conocimientos */
-    min-width: 180px;
-    max-width: 220px;
-}
-
-.jobs-table th:nth-child(9), .jobs-table td:nth-child(9) { /* Funciones */
-    min-width: 180px;
-    max-width: 220px;
-}
-
-.jobs-table th:nth-child(10), .jobs-table td:nth-child(10) { /* Beneficios */
-    min-width: 180px;
-    max-width: 220px;
-}
-
-.jobs-table th:nth-child(11), .jobs-table td:nth-child(11) { /* Sueldo */
-    min-width: 100px;
-    max-width: 120px;
-}
-
-.jobs-table th:nth-child(12), .jobs-table td:nth-child(12) { /* Prestaciones */
-    min-width: 150px;
-    max-width: 180px;
-}
-
-.jobs-table th:nth-child(13), .jobs-table td:nth-child(13) { /* Fecha Creación */
-    min-width: 120px;
-    max-width: 140px;
-}
-
-.jobs-table th:nth-child(14), .jobs-table td:nth-child(14) { /* Fecha Modificación */
-    min-width: 120px;
-    max-width: 140px;
-}
-
-.jobs-table th:nth-child(15), .jobs-table td:nth-child(15) { /* Acciones */
-    min-width: 120px;
-    max-width: 140px;
 }
 
 .jobs-table th {
     background-color: #f8f9fa;
     position: sticky;
     top: 0;
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-.jobs-table th:hover {
-    background-color: #e9ecef;
 }
 
 .jobs-table tr:hover {
     background-color: #f8f9fa;
 }
 
-/* Estilos para mejorar la visualización de textos largos */
-.jobs-table td {
-    vertical-align: top;
-}
-
-.jobs-table td:not(:nth-child(15)) { /* Aplicar a todas las celdas excepto Acciones */
-    max-height: 120px;
-    overflow-y: auto;
-}
-
+/* Estilos para los botones */
 .btn {
     padding: 8px 12px;
     border: none;
@@ -869,6 +950,7 @@ document.addEventListener('DOMContentLoaded', () => {
     display: inline-block;
     font-size: 14px;
     transition: background-color 0.3s;
+    margin: 2px;
 }
 
 .btn-primary {
@@ -889,15 +971,6 @@ document.addEventListener('DOMContentLoaded', () => {
     background-color: #c82333;
 }
 
-.btn-search {
-    background-color: #6c757d;
-    color: white;
-}
-
-.btn-search:hover {
-    background-color: #5a6268;
-}
-
 .btn-add {
     background-color: #28a745;
     color: white;
@@ -907,11 +980,18 @@ document.addEventListener('DOMContentLoaded', () => {
     background-color: #218838;
 }
 
+.btn-view {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.btn-view:hover {
+    background-color: #138496;
+}
+
 .btn-edit {
     background-color: #ffc107;
     color: black;
-    padding: 5px 10px;
-    margin-right: 5px;
 }
 
 .btn-edit:hover {
@@ -921,32 +1001,10 @@ document.addEventListener('DOMContentLoaded', () => {
 .btn-delete {
     background-color: #dc3545;
     color: white;
-    padding: 5px 10px;
 }
 
 .btn-delete:hover {
     background-color: #c82333;
-}
-
-.btn-pagination {
-    background-color: #6c757d;
-    color: white;
-    margin: 0 5px;
-}
-
-.btn-pagination:hover {
-    background-color: #5a6268;
-}
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-}
-
-.page-info {
-    margin: 0 15px;
 }
 
 /* Modal CSS */
@@ -969,7 +1027,7 @@ document.addEventListener('DOMContentLoaded', () => {
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    max-width: 900px; /* Aumenté el ancho máximo del modal */
+    max-width: 900px;
     border-radius: 8px;
     position: relative;
     max-height: 90vh;
@@ -1032,47 +1090,97 @@ document.addEventListener('DOMContentLoaded', () => {
     border-color: #ebccd1;
 }
 
-/* Mejoras de responsividad */
-@media (max-width: 1600px) {
-    .dashboard-container {
-        max-width: 1500px;
-    }
+/* Estilos para el modal de visualización */
+.view-job-content {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 10px;
 }
 
-@media (max-width: 1400px) {
-    .dashboard-container {
-        max-width: 1300px;
-    }
-    
-    .jobs-table th, .jobs-table td {
-        font-size: 13px;
-        padding: 10px 8px;
-    }
+.view-details-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
 }
 
-@media (max-width: 1200px) {
+.detail-row {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.detail-label {
+    font-weight: bold;
+    min-width: 180px;
+    margin-right: 15px;
+    color: #555;
+}
+
+.detail-value {
+    flex: 1;
+    word-break: break-word;
+}
+
+.modal-footer {
+    margin-top: 20px;
+    text-align: right;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+/* Estilos para la columna de aplicaciones */
+.application-count {
+    text-align: center;
+    font-weight: bold;
+    min-width: 120px;
+}
+
+/* Estilos para el modal de aplicaciones */
+.applications-content {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.applications-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.applications-table th,
+.applications-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.applications-table th {
+    background-color: #f8f9fa;
+    position: sticky;
+    top: 0;
+}
+
+.btn-view-cv {
+    background-color: #17a2b8;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.btn-view-cv:hover {
+    background-color: #138496;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
     .dashboard-container {
-        max-width: 1100px;
+        max-width: 95%;
         padding: 15px;
     }
     
-    .jobs-table {
-        min-width: 1000px;
-    }
-}
-
-@media (max-width: 992px) {
-    .dashboard-container {
-        max-width: 95%;
-    }
-    
-    .modal-content {
-        width: 90%;
-        max-width: 95%;
-    }
-}
-
-@media (max-width: 768px) {
     .table-controls {
         flex-direction: column;
     }
@@ -1104,44 +1212,24 @@ document.addEventListener('DOMContentLoaded', () => {
         min-width: 120px;
         text-align: center;
     }
-}
-
-/* Estilo para mejorar la visualización de textos largos */
-.text-truncate {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.tooltip {
-    position: relative;
-    display: inline-block;
-}
-
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 250px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -125px;
-    opacity: 0;
-    transition: opacity 0.3s;
-    font-size: 13px;
-    line-height: 1.4;
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
+    
+    .detail-row {
+        flex-direction: column;
+    }
+    
+    .detail-label {
+        margin-bottom: 5px;
+        margin-right: 0;
+    }
+    
+    .jobs-table {
+        font-size: 14px;
+    }
+    
+    .btn {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
 }
 </style>
 

@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS `vacantes` (
   `beneficios` text NOT NULL,
   `sueldo` decimal(10,2) NOT NULL,
   `prestaciones` text NOT NULL,
+  `aplicaciones` tinyint NOT NULL DEFAULT 0,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
